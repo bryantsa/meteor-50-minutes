@@ -1,0 +1,33 @@
+Tasks = new Mongo.Collection('tasks');
+
+if (Meteor.isClient) {
+  Template.tasks.helpers({
+    tasks: function(){
+      return Tasks.find({}, {sort:{createdAt: -1}});
+    }
+  });
+  Template.tasks.events({
+    "sumbit .add-task": function(event){
+      var name = event.target.name.value;
+
+      tasks.insert({
+        name: name,
+        createdAt: new Date()
+      });
+
+      event.target.name.value= '';
+
+      return false;
+    },
+    "click .delete-task": function(event){
+      if(confirm('Delete Task?')){
+        tasks.remove(this._id);
+      }
+      return false;
+    }
+  });
+}
+
+if (Meteor.isServer) {
+
+}
