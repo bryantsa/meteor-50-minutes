@@ -6,11 +6,13 @@ if (Meteor.isClient) {
       return Tasks.find({}, {sort:{createdAt: -1}});
     }
   });
+
+
   Template.tasks.events({
-    "sumbit .add-task": function(event){
+    "submit .add-task": function(event){
       var name = event.target.name.value;
 
-      tasks.insert({
+      Tasks.insert({
         name: name,
         createdAt: new Date()
       });
@@ -21,7 +23,7 @@ if (Meteor.isClient) {
     },
     "click .delete-task": function(event){
       if(confirm('Delete Task?')){
-        tasks.remove(this._id);
+        Tasks.remove(this._id);
       }
       return false;
     }
